@@ -10,12 +10,12 @@
     """
 import csv
 def parse_current_rain_state(WEATHER_CSV_PATH: str) -> str:
-    WEATHER_CSV_PATH = "data/weather.csv"
+    path = WEATHER_CSV_PATH
 
 
-    with open("data/weather.csv", "r") as f:
+    with open(path, "r") as f:
         reader = csv.reader(f, delimiter=",")
         header = next(reader)
         for row in reader:
             preciptype = row[13]
-            return(preciptype)
+            return preciptype
