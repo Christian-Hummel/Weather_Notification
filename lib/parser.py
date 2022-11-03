@@ -17,5 +17,7 @@ def parse_current_rain_state(path: str) -> str:
         reader = csv.reader(f, delimiter=",")
         header = next(reader)
         first_line = next(reader)
-        preciptype = first_line[13]
+        preciptype_index = header.index('preciptype')
+        preciptype = first_line[preciptype_index]
         return preciptype
+

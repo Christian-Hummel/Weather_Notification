@@ -13,5 +13,6 @@ def run_weather_notification():
     print(rain_state)
 
 
+
 if __name__ == "__main__":
     run_weather_notification()
