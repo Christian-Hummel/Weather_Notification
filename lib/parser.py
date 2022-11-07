@@ -9,7 +9,9 @@
 
     """
 import csv
-def parse_current_rain_state(path: str) -> str:
+
+
+def parse_csv_rain_state(path: str) -> str:
 
 
 
@@ -21,3 +23,15 @@ def parse_current_rain_state(path: str) -> str:
         preciptype = first_line[preciptype_index]
         return preciptype
 
+
+def parse_json_rain_state(path: str) -> str:
+    """Open a json file containing weather data and parse the current rain state.
+
+    Args:
+        path: Path to the json file.
+
+    Returns:
+        Rain state as a string.
+
+    """
+    return ""
