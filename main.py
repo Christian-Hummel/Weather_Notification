@@ -1,18 +1,15 @@
-import csv
+
 from lib import parser
+from lib import query
 
 WEATHER_CSV_PATH = "data/weather.csv"
 WEATHER_JSON_PATH = "data/weather.json"
 
 
 def run_weather_notification():
-    rain_state = parser.parse_json_rain_state(WEATHER_JSON_PATH)
-    print(rain_state)
-
-    """"with open("data/TODO.txt", "w") as notification_doc:
-        notification_doc.write(rain_state)
-        notification_doc.close()"""""
-
+    # rain_state = parser.parse_json_rain_state(WEATHER_JSON_PATH)
+    weather_data = query.query_current_weather_data("Krems")
+    print(weather_data)
 
 
 if __name__ == "__main__":
