@@ -9,6 +9,8 @@
 
     """
 import csv
+import json
+
 
 
 def parse_csv_rain_state(path: str) -> str:
@@ -34,4 +36,9 @@ def parse_json_rain_state(path: str) -> str:
         Rain state as a string.
 
     """
-    return ""
+    with open("data/weather.json", "r") as f:
+        data = json.load(f)
+        preciptype = data["days"][0]["preciptype"]
+        return preciptype
+
+
