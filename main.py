@@ -11,6 +11,7 @@ def run_weather_notification():
     weather_data = query.query_current_weather_data("Krems")
     print(weather_data)
     print("weather")
+    print("received data:", weather_data)
 
 
 if __name__ == "__main__":
