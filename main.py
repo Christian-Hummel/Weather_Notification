@@ -9,7 +9,7 @@ WEATHER_JSON_PATH = "data/weather.json"
 def run_weather_notification():
     # rain_state = parser.parse_json_rain_state(WEATHER_JSON_PATH)
     weather_data = query.query_current_weather_data("Krems")
-    print(weather_data)
+    print("received data:", weather_data)
 
 
 if __name__ == "__main__":
