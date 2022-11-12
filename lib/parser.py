@@ -1,20 +1,18 @@
-
-"""Open a csv file containing weather data and parse the current rain state.
-
-    Args:
-        path: Path to the csv file.
-
-    Returns:
-        Rain state as a string.
-
-    """
 import csv
 import json
 
 
 
 def parse_csv_rain_state(path: str) -> str:
+    """Open a csv file containing weather data and parse the current rain state.
 
+        Args:
+            path: Path to the csv file.
+
+        Returns:
+            Rain state as a string.
+
+        """
 
 
     with open(path, "r") as f:
@@ -39,6 +37,9 @@ def parse_json_rain_state(path: str) -> str:
     with open("data/weather.json", "r") as f:
         data = json.load(f)
         preciptype = data["days"][0]["preciptype"]
-        return preciptype
+        return str(preciptype)
+
+
+
 
 
