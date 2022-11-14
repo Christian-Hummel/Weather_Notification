@@ -1,8 +1,8 @@
 
 import requests
 
-URL = "https://weather.visualcrossing.com/VisualCrossingWebServices/rest"
-
+URL = "https://weather.visualcrossing.com/VisualCrossingWebServices/rest/services/timeline/Krems?unitGroup=us&key=PHNQBUCUXL9FLM4WBG3329EDB&contentType=json"
+API_KEY = "PHNQBUCUXL9FLM4WBG3329EDB"
 
 def query_current_weather_data(location: str) -> dict:
     """Construct a REST call to visualcrossing and query weather data for the given location.
@@ -21,9 +21,8 @@ def query_current_weather_data(location: str) -> dict:
         "": ""
     }
 
-    more_url_info = ""  # TODO delete this variable and complete the URL string below instead
-    response = requests.get(f"{URL}/{more_url_info}", params=parameters)
-
+    response = requests.get(f"{URL}", params=parameters)
+    print(response)
     if not response.ok:
         response.raise_for_status()
 
