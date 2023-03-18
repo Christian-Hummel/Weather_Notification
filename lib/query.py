@@ -1,8 +1,8 @@
 
 import requests
 
-URL = "https://weather.visualcrossing.com/VisualCrossingWebServices/rest/services/timeline/Krems?unitGroup=us&key=PHNQBUCUXL9FLM4WBG3329EDB&contentType=json"
-API_KEY = "PHNQBUCUXL9FLM4WBG3329EDB"
+URL = "https://weather.visualcrossing.com/VisualCrossingWebServices/rest/services/timeline"
+
 
 def query_current_weather_data(location: str) -> dict:
     """Construct a REST call to visualcrossing and query weather data for the given location.
@@ -15,15 +15,22 @@ def query_current_weather_data(location: str) -> dict:
 
     """
 
-    # TODO input all the necessary parameters for the REST query
     parameters = {
-        "unitGroup": "metric",
-        "": ""
+        "datetime": "2023-03-14",
+        "unitGroup": "us" ,
+        "key": "PHNQBUCUXL9FLM4WBG3329EDB",
+        "contentType": "json",
+
     }
 
-    response = requests.get(f"{URL}", params=parameters)
-    print(response)
+    response = requests.get(f"{URL}/{location}", params=parameters)
+
+
     if not response.ok:
         response.raise_for_status()
 
     return response.json()
+
+
+
+
