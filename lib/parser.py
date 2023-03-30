@@ -46,7 +46,7 @@ def parse_json_rain_state(path: str) -> str:
 
 
 def parse_current_day_rain_state(weather_data: dict) -> str:
-    preciptype = weather_data["days"][6]["preciptype"]
+    preciptype = weather_data["days"][4]["preciptype"]
     return preciptype
 
 
@@ -59,10 +59,12 @@ def get_current_day_notification(weather_data: dict) -> str:
     if preciptype is None:
         return NONE_STRING
 
-    return preciptype
-    x = NOTIFICATION_STRING + preciptype
-    " and ".join(x)
+    y = str(preciptype)
+    " and ".join(y)
+    x = NOTIFICATION_STRING + y
     return x
+
+
 
 
 
