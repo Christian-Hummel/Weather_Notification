@@ -1,6 +1,6 @@
 import csv
 import json
-NOTIFICATION_STRING = "today there will be"
+NOTIFICATION_STRING = "today there will be "
 NONE_STRING = "the weather will be alright today"
 
 
@@ -46,7 +46,7 @@ def parse_json_rain_state(path: str) -> str:
 
 
 def parse_current_day_rain_state(weather_data: dict) -> str:
-    preciptype = weather_data["days"][4]["preciptype"]
+    preciptype = weather_data["days"][3]["preciptype"]
     return preciptype
 
 
@@ -59,9 +59,9 @@ def get_current_day_notification(weather_data: dict) -> str:
     if preciptype is None:
         return NONE_STRING
 
-    y = str(preciptype)
-    " and ".join(y)
-    x = NOTIFICATION_STRING + y
+    y = preciptype
+    xy = " and  ".join(y)
+    x = NOTIFICATION_STRING  + xy
     return x
 
 
