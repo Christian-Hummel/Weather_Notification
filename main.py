@@ -6,12 +6,11 @@ WEATHER_CSV_PATH = "data/weather.csv"
 WEATHER_JSON_PATH = "data/weather.json"
 
 
-LOCATION = query.load_api_location()
 
 
 def run_weather_notification():
     # rain_state = parser.parse_json_rain_state(WEATHER_JSON_PATH)
-    weather_data = query.query_current_weather_data(LOCATION)
+    weather_data = query.query_current_weather_data('location')
     notification = parser.get_current_day_notification(weather_data)
     print(notification)
 

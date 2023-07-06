@@ -2,7 +2,13 @@
 import requests
 import yaml
 
+URL = "https://weather.visualcrossing.com/VisualCrossingWebServices/rest/services/timeline"
 
+def load_api_location():
+    with open('conf/weather.yaml', 'r') as file:
+        config = yaml.safe_load(file)
+        location = config['location']
+        return location
 
 def load_api_token():
     with open('conf/weather.yaml', 'r') as file:
@@ -10,13 +16,7 @@ def load_api_token():
         token = config['token']
         return token
 
-URL = load_api_token()
 
-def load_api_location():
-    with open('conf/weather.yaml', 'r') as file:
-        config = yaml.safe_load(file)
-        location = config['location']
-        return location
 
 
 def query_current_weather_data(location: str) -> dict:
@@ -30,13 +30,23 @@ def query_current_weather_data(location: str) -> dict:
 
     """
 
+
+
+
+
+
+
+
+
     parameters = {
         "datetime": "2023-03-14",
         "unitGroup": "us" ,
-        "key": "PHNQBUCUXL9FLM4WBG3329EDB",
+        "key": load_api_token(),
         "contentType": "json",
 
     }
+
+
 
     response = requests.get(f"{URL}/{location}", params=parameters)
 
