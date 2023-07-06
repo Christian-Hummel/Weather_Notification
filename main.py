@@ -5,7 +5,8 @@ from lib import query
 WEATHER_CSV_PATH = "data/weather.csv"
 WEATHER_JSON_PATH = "data/weather.json"
 
-LOCATION = "Krems"
+
+LOCATION = query.load_api_location()
 
 
 def run_weather_notification():
