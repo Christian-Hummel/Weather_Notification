@@ -1,7 +1,13 @@
 
 import requests
+import yaml
 
 URL = "https://weather.visualcrossing.com/VisualCrossingWebServices/rest/services/timeline"
+def load_api_token():
+    with open('weather.yaml', 'r') as file:
+        config = yaml.safe_load(file)
+        api_token = config['token']
+        return api_token
 
 
 def query_current_weather_data(location: str) -> dict:
@@ -23,7 +29,7 @@ def query_current_weather_data(location: str) -> dict:
 
     }
 
-    response = requests.get(f"{URL}/{location}", params=parameters)
+    response = requests.get(f"{load_api_token()}/{location}", params=parameters)
 
 
     if not response.ok:

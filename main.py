@@ -15,5 +15,6 @@ def run_weather_notification():
     print(notification)
 
 
+
 if __name__ == "__main__":
     run_weather_notification()
