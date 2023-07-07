@@ -39,6 +39,7 @@ def query_current_weather_data(location: str) -> dict:
 
 
     parameters = {
+        "location": load_api_location(),
         "datetime": "2023-03-14",
         "unitGroup": "us" ,
         "key": load_api_token(),
@@ -48,7 +49,7 @@ def query_current_weather_data(location: str) -> dict:
 
 
 
-    response = requests.get(f"{URL}/{location}", params=parameters)
+    response = requests.get(f"{URL}", params=parameters)
 
 
     if not response.ok:
