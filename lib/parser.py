@@ -39,7 +39,7 @@ def parse_json_rain_state(path: str) -> str:
         return str(preciptype)
 
 def parse_current_day_rain_state(weather_data: dict) -> str:
-    preciptype = weather_data["days"][0]["preciptype"]
+    preciptype = weather_data["preciptype"]
     return preciptype
 
 
