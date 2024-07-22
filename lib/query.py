@@ -41,7 +41,7 @@ def query_current_weather_data(location: str) -> dict:
 
     parameters = {
         "location": load_api_location(),
-        "datetime": date.isoformat(date.today()),
+        "datetime": "2024-07-25",
         "unitGroup": "us" ,
         "key": load_api_token(),
         "contentType": "json",
@@ -52,8 +52,10 @@ def query_current_weather_data(location: str) -> dict:
 
     response = requests.get(f"{URL}", params=parameters)
 
+    for dct in response.json()["days"]:
+        if dct["datetime"] == parameters["datetime"]:
+            return dct
 
     if not response.ok:
         response.raise_for_status()
 
-    return response.json()
