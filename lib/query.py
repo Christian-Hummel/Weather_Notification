@@ -1,6 +1,7 @@
 
 import requests
 import yaml
+from datetime import datetime, date
 
 URL = "https://weather.visualcrossing.com/VisualCrossingWebServices/rest/services/timeline"
 
@@ -40,7 +41,7 @@ def query_current_weather_data(location: str) -> dict:
 
     parameters = {
         "location": load_api_location(),
-        "datetime": "2023-03-14",
+        "datetime": date.isoformat(date.today()),
         "unitGroup": "us" ,
         "key": load_api_token(),
         "contentType": "json",
