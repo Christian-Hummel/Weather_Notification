@@ -1,7 +1,22 @@
 
 import requests
+import yaml
 
-URL = "https://weather.visualcrossing.com/VisualCrossingWebServices/rest"
+URL = "https://weather.visualcrossing.com/VisualCrossingWebServices/rest/services/timeline"
+
+def load_api_location():
+    with open('conf/weather.yaml', 'r') as file:
+        config = yaml.safe_load(file)
+        location = config['location']
+        return location
+
+def load_api_token():
+    with open('conf/weather.yaml', 'r') as file:
+        config = yaml.safe_load(file)
+        token = config['token']
+        return token
+
+
 
 
 def query_current_weather_data(location: str) -> dict:
@@ -15,14 +30,27 @@ def query_current_weather_data(location: str) -> dict:
 
     """
 
-    # TODO input all the necessary parameters for the REST query
+
+
+
+
+
+
+
+
     parameters = {
-        "unitGroup": "metric",
-        "": ""
+        "location": load_api_location(),
+        "datetime": "2023-03-14",
+        "unitGroup": "us" ,
+        "key": load_api_token(),
+        "contentType": "json",
+
     }
 
-    more_url_info = ""  # TODO delete this variable and complete the URL string below instead
-    response = requests.get(f"{URL}/{more_url_info}", params=parameters)
+
+
+    response = requests.get(f"{URL}", params=parameters)
+
 
     if not response.ok:
         response.raise_for_status()
