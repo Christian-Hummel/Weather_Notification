@@ -24,13 +24,15 @@ def convert_message(html):
         if s == -1:
             break
         e = html.find('</div>',s)
-        res.append(html[s+len(DIV):e])
+        line = html[s+len(DIV):e]
+        if line != "&nbsp;":
+            res.append(line)
 
 
 
     # remove whitespaces with replace function
     res = [elem.replace(" ", "") for elem in res]
-
+    res = [elem.replace("&nbsp;","") for elem in res]
 
     # convert list into dictionary
     res = {lst[0]: (lst[1].split(",") if "," in lst[1] else lst[1]) for lst in
@@ -39,31 +41,36 @@ def convert_message(html):
 
     return res
 
+
+def fetch_message():
+    # email credentials saved in local file
+    with open('conf/email.yaml', 'r') as f:
+        conf = yaml.safe_load(f)
+
+
+    email_address = conf["email_address"]
+    password = conf["password"]
+    imap = conf["imap"]
+    imap_port = conf["port"]
+
+    with MailBox(imap, port=imap_port).login(email_address, password) as mailbox:
+
+        # end program if there are no messages
+        if not len(list(mailbox.fetch())):
+            sys.exit("No messages received")
+
+        # capture only the latest mail received
+        return convert_message(list(mailbox.fetch(limit=1, reverse=True, mark_seen=True))[0].html)
+
 def save_to_file(msg):
 
-    with open('../conf/commands.json', 'w') as outfile:
+    with open('conf/commands.json', 'w') as outfile:
         json.dump(msg, outfile)
 
-# email credentials saved in local file
-with open('../conf/email.yaml', 'r') as f:
-    conf = yaml.safe_load(f)
 
 
-email_address = conf["email_address"]
-password = conf["password"]
-
-with MailBox("imap.gmail.com", port=993).login(email_address, password) as mailbox:
-
-    # end program if there are no messages
-    if not len(list(mailbox.fetch())):
-        sys.exit("No messages received")
-
-    # capture only the latest mail received
-    msg = list(mailbox.fetch(limit=1, reverse=True, mark_seen=True))[0].html
 
 
-message = convert_message(msg)
-save_to_file(message)
 
 
 
