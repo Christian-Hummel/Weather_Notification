@@ -41,7 +41,7 @@ def query_current_weather_data(location: str) -> dict:
 
     parameters = {
         "location": load_api_location(),
-        "datetime": "2024-07-25",
+        "datetime": date.isoformat(date.today()),
         "unitGroup": "us" ,
         "key": load_api_token(),
         "contentType": "json",
