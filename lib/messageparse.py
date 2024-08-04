@@ -2,45 +2,46 @@ from imap_tools import MailBox
 import yaml
 import json
 import sys
+from bs4 import BeautifulSoup
 
 
-def convert_message(html):
 
-    """
-
-    filter out the contents of the message by extracting slices of the "div" html tags
-
-    Args:
-        html: email in html format
-
-    Returns: content of the div html tags in a list
-
-    """
-    DIV = "<div>"
+def convert_mail_gmail(message):
     res = []
-    s, e = 0, 0
-    while True:
-        s = html.find(DIV, e)
-        if s == -1:
-            break
-        e = html.find('</div>',s)
-        line = html[s+len(DIV):e]
-        if line != "&nbsp;":
-            res.append(line)
+    soup = soup = BeautifulSoup(message, "html.parser")
+
+    for child in list(soup.descendants)[1::]:
+        if child.name:
+            res.append(child.text)
+
+    text = [elem.replace(" ", "").replace("\xa0", "") for elem in res]
+    text = [elem for elem in text if len(elem) > 0 and elem not in ["\r"]]
+
+    text_dct = {lst[0]: (lst[1].split(",") if "," in lst[1] else lst[1]) for lst in
+                [line.split(":", maxsplit=1) for line in text]}
+
+
+    return text_dct
 
 
 
-    # remove whitespaces with replace function
-    res = [elem.replace(" ", "") for elem in res]
-    res = [elem.replace("&nbsp;","") for elem in res]
+def convert_mail_imc_gmx(message):
+    soup = BeautifulSoup(message, "html.parser")
 
-    # convert list into dictionary
-    res = {lst[0]: (lst[1].split(",") if "," in lst[1] else lst[1]) for lst in
-            [line.split(":", maxsplit=1) for line in res]}
+    for child in soup.children:
+        if child.name:
+            text = child.text.split("\n")
+
+    text = [elem.replace(" ", "").replace("\xa0", "") for elem in text]
+    text = [elem for elem in text if len(elem) > 0 and elem not in ["\r"]]
 
 
-    return res
 
+    text_dct = {lst[0]: (lst[1].split(",") if "," in lst[1] else lst[1]) for lst in
+            [line.split(":", maxsplit=1) for line in text]}
+
+
+    return text_dct
 
 def fetch_message():
     # email credentials saved in local file
@@ -59,14 +60,24 @@ def fetch_message():
         if not len(list(mailbox.fetch())):
             sys.exit("No messages received")
 
-        # capture only the latest mail received
-        return convert_message(list(mailbox.fetch(limit=1, reverse=True, mark_seen=True))[0].html)
+        # extract latest mail
+        mailbox = list(mailbox.fetch(limit=1, reverse=True, mark_seen=True))
+
+        mail = mailbox[0]
+
+        provider = mail.from_.split("@")[1].lower()
+
+
+
+        if len([prov for prov in [provider] if "gmx" in prov or "imc" in prov]):
+            return convert_mail_imc_gmx(mail.html)
+        elif len([prov for prov in [provider] if "gmail" in prov]):
+            return convert_mail_gmail(mail.html)
 
 def save_to_file(msg):
 
-    with open('conf/commands.json', 'w') as outfile:
+    with open('conf/commands.json', 'w', encoding="utf-8") as outfile:
         json.dump(msg, outfile)
-
 
 
 
