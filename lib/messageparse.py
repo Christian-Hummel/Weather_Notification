@@ -8,7 +8,7 @@ from bs4 import BeautifulSoup
 
 def convert_mail_gmail(message):
     res = []
-    soup = soup = BeautifulSoup(message, "html.parser")
+    soup = BeautifulSoup(message, "html.parser")
 
     for child in list(soup.descendants)[1::]:
         if child.name:
